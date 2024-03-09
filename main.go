@@ -129,13 +129,13 @@ func (pe *pgEngine) getTableDef(name string) (*table, error) {
 	err := pe.db.View(func(tx *bolt.Tx) error {
 		bkt := tx.Bucket(pe.bucket)
 		if bkt == nil {
-			return fmt.Errorf("Table does not exist")
+			return fmt.Errorf("table does not exist")
 		}
 
 		valBytes := bkt.Get([]byte("tables_" + name))
 		err := json.Unmarshal(valBytes, &tbl)
 		if err != nil {
-			return fmt.Errorf("Could not unmarshal table: %s", err)
+			return fmt.Errorf("could not unmarshal table: %s", err)
 		}
 
 		return nil
@@ -235,7 +235,7 @@ func (p *pg) Apply(log *raft.Log) any {
 		query := string(log.Data)
 		ast, err := pgquery.Parse(query)
 		if err != nil {
-			panic(fmt.Errorf("Could not parse payload: %s", err))
+			panic(fmt.Errorf("could not parse payload: %s", err))
 		}
 		err = p.p.execute(ast)
 		if err != nil {
